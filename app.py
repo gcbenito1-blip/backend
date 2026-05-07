@@ -12,7 +12,17 @@ import joblib
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
-CORS(app)
+# Configure CORS properly
+CORS(app, resources={
+    r"/*": {
+        "origins": "*",  # Specify your frontend origin in production
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "expose_headers": ["Content-Type"],
+        "supports_credentials": False,  # Set to True if using cookies/auth
+        "max_age": 3600
+    }
+})
 
 # ===========================================================================
 # LOAD ARTIFACT
