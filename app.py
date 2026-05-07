@@ -24,6 +24,12 @@ CORS(app, resources={
     }
 })
 
+# Add favicon route to prevent 404 errors
+@app.route('/favicon.ico')
+def favicon():
+    # Return empty response with 204 No Content
+    return Response('', status=204, mimetype='image/x-icon')
+
 # ===========================================================================
 # LOAD ARTIFACT
 # ===========================================================================
