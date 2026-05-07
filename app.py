@@ -13,10 +13,8 @@ warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 # Configure CORS properly
-FRONTEND_URL = "https://nat-lytics-dashboard.vercel.app"  # Change this!
-
 CORS(app, supports_credentials=False, 
-     origins="*",
+     origins=["https://nat-lytics-dashboard.vercel.app"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
      allow_headers=["Content-Type", "Authorization"])
 
@@ -24,7 +22,7 @@ CORS(app, supports_credentials=False,
 @app.after_request
 def add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = 'https://nat-lytics-dashboard.vercel.app'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     
     # Ensure response is not treated as opaque
