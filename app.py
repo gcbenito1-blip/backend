@@ -15,12 +15,23 @@ app = Flask(__name__)
 # Configure CORS properly
 FRONTEND_URL = "https://nat-lytics-dashboard.vercel.app"  # Change this!
 
-CORS(app, 
-     origins=[FRONTEND_URL, "http://localhost:3000", "http://localhost:5173"],  # Add local dev URLs
+CORS(app, supports_credentials=False, 
+     origins="*",
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     allow_headers=["Content-Type", "Authorization"],
-     supports_credentials=True)
+     allow_headers=["Content-Type", "Authorization"])
 
+# Add security headers to prevent blocking
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    
+    # Ensure response is not treated as opaque
+    if response.mimetype == 'text/html':
+        response.mimetype = 'application/json'
+    
+    return response
 # Add favicon route to prevent 404 errors
 @app.route('/favicon.ico')
 def favicon():
