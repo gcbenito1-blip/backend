@@ -13,23 +13,7 @@ warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 # Configure CORS properly
-CORS(app, supports_credentials=False, 
-     origins=["https://nat-lytics-dashboard.vercel.app"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     allow_headers=["Content-Type", "Authorization"])
-
-# Add security headers to prevent blocking
-@app.after_request
-def add_security_headers(response):
-    response.headers['X-Content-Type-Options'] = 'nosniff'
-    response.headers['Access-Control-Allow-Origin'] = 'https://nat-lytics-dashboard.vercel.app'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-    
-    # Ensure response is not treated as opaque
-    if response.mimetype == 'text/html':
-        response.mimetype = 'application/json'
-    
-    return response
+CORS(app)
 # Add favicon route to prevent 404 errors
 @app.route('/favicon.ico')
 def favicon():
