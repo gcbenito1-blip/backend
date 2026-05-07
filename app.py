@@ -13,7 +13,13 @@ warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 # Configure CORS properly
-CORS(app)
+FRONTEND_URL = "https://nat-lytics-dashboard.vercel.app"  # Change this!
+
+CORS(app, 
+     origins=[FRONTEND_URL, "http://localhost:3000", "http://localhost:5173"],  # Add local dev URLs
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     allow_headers=["Content-Type", "Authorization"],
+     supports_credentials=True)
 
 # Add favicon route to prevent 404 errors
 @app.route('/favicon.ico')
